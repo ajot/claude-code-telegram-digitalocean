@@ -20,6 +20,41 @@ warn()  { echo -e "\033[1;33m  !\033[0m $*"; }
 pause() { echo; read -rp "  Press Enter to continue..." ; }
 
 # ---------------------------------------------------------------------------
+# Welcome
+# ---------------------------------------------------------------------------
+
+echo
+VERSION="1.0.0"
+echo "  ┌─────────────────────────────────────────────────────┐"
+echo "  │   Claude Code Telegram Bot — Droplet Setup v$VERSION  │"
+echo "  └─────────────────────────────────────────────────────┘"
+echo
+echo "  This script will set up everything needed to run the"
+echo "  Claude Code Telegram bot on this droplet:"
+echo
+echo "    1. System packages (zsh, git, gh, python3, build tools)"
+echo "    2. Oh My Zsh (set as default shell)"
+echo "    3. SSH deploy key for GitHub"
+echo "    4. GitHub CLI authentication"
+echo "    5. Poetry (Python package manager)"
+echo "    6. Claude Code CLI"
+echo "    7. Clone and install the bot"
+echo "    8. Configure .env with your Telegram bot credentials"
+echo
+echo "  You'll be prompted along the way for:"
+echo "    - GitHub personal access token"
+echo "    - Anthropic API key"
+echo "    - Telegram bot token, username, and allowed user IDs"
+echo
+
+read -rp "  Ready to begin? (Y/n): " BEGIN
+
+if [[ "$BEGIN" =~ ^[Nn]$ ]]; then
+    echo "  Exiting. Run this script again when you're ready."
+    exit 0
+fi
+
+# ---------------------------------------------------------------------------
 # Section 1: System packages
 # ---------------------------------------------------------------------------
 

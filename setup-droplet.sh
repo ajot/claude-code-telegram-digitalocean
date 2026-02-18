@@ -125,16 +125,20 @@ info "Section 4: Installing Poetry"
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# Ensure ~/.local/bin is on PATH in zshrc
+# Oh My Zsh's default zshrc has this line but commented out — uncomment it
+if grep -q '^# export PATH=$HOME/bin:$HOME/.local/bin' "$HOME/.zshrc" 2>/dev/null; then
+    sed -i 's/^# export PATH=$HOME\/bin:$HOME\/.local\/bin/export PATH=$HOME\/bin:$HOME\/.local\/bin/' "$HOME/.zshrc"
+    ok "Uncommented PATH line in ~/.zshrc"
+elif ! grep -q '^export.*\.local/bin' "$HOME/.zshrc" 2>/dev/null; then
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+    ok "Added ~/.local/bin to PATH in ~/.zshrc"
+fi
+
 if command -v poetry &>/dev/null; then
     warn "Poetry is already installed ($(poetry --version)) — skipping"
 else
     curl -sSL https://install.python-poetry.org | python3 -
-
-    # Add to zshrc if not already there
-    if ! grep -q '.local/bin' "$HOME/.zshrc" 2>/dev/null; then
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
-    fi
-
     ok "Poetry installed ($(poetry --version))"
 fi
 

@@ -127,8 +127,8 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Ensure ~/.local/bin is on PATH in zshrc
 # Oh My Zsh's default zshrc has this line but commented out — uncomment it
-if grep -q '^# export PATH=$HOME/bin:$HOME/.local/bin' "$HOME/.zshrc" 2>/dev/null; then
-    sed -i 's/^# export PATH=$HOME\/bin:$HOME\/.local\/bin/export PATH=$HOME\/bin:$HOME\/.local\/bin/' "$HOME/.zshrc"
+if grep -q '^# export PATH=.*.local/bin' "$HOME/.zshrc" 2>/dev/null; then
+    sed -i '/^# export PATH=.*\.local\/bin/s/^# //' "$HOME/.zshrc"
     ok "Uncommented PATH line in ~/.zshrc"
 elif ! grep -q '^export.*\.local/bin' "$HOME/.zshrc" 2>/dev/null; then
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"

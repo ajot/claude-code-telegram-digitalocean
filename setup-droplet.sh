@@ -24,7 +24,7 @@ pause() { echo; read -rp "  Press Enter to continue..." ; }
 # ---------------------------------------------------------------------------
 
 echo
-VERSION="1.1.0"
+VERSION="1.2.0"
 echo "  ┌─────────────────────────────────────────────────────┐"
 echo "  │   Claude Code Telegram Bot — Droplet Setup v$VERSION  │"
 echo "  └─────────────────────────────────────────────────────┘"
@@ -274,7 +274,51 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# Section 9: Done!
+# Section 9: Systemd service (optional)
+# ---------------------------------------------------------------------------
+
+info "Section 9: Run as a background service"
+
+echo
+echo "  You can run the bot as a systemd service so it stays running"
+echo "  after you disconnect and auto-starts on reboot."
+echo
+read -rp "  Set up the bot as a systemd service? (Y/n): " SETUP_SERVICE
+
+if [[ ! "$SETUP_SERVICE" =~ ^[Nn]$ ]]; then
+    cat > /etc/systemd/system/claude-telegram-bot.service <<EOF
+[Unit]
+Description=Claude Code Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=$REPO_DIR
+ExecStart=$HOME/.local/bin/poetry run claude-telegram-bot
+EnvironmentFile=$REPO_DIR/.env
+Environment=ANTHROPIC_API_KEY=$ANTHROPIC_KEY
+Environment=PATH=$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+    systemctl daemon-reload
+    systemctl enable claude-telegram-bot
+    systemctl start claude-telegram-bot
+    ok "Bot is running as a systemd service"
+    echo
+    echo "  Useful commands:"
+    echo "    systemctl status claude-telegram-bot    # check status"
+    echo "    journalctl -u claude-telegram-bot -f    # follow logs"
+    echo "    systemctl restart claude-telegram-bot   # restart"
+    echo "    systemctl stop claude-telegram-bot      # stop"
+fi
+
+# ---------------------------------------------------------------------------
+# Section 10: Done!
 # ---------------------------------------------------------------------------
 
 info "Setup complete!"
@@ -291,16 +335,15 @@ echo "    - Bot repo cloned to $REPO_DIR"
 echo "    - Bot dependencies installed"
 echo "    - tool_name bug fix applied"
 echo "    - .env configured"
-echo
-read -rp "  Ready to start the bot? (Y/n): " START_BOT
 
-if [[ ! "$START_BOT" =~ ^[Nn]$ ]]; then
-    info "Starting bot in debug mode..."
-    cd "$REPO_DIR"
-    make run-debug
+if systemctl is-active --quiet claude-telegram-bot 2>/dev/null; then
+    echo "    - Bot running as a systemd service"
+    echo
+    echo "  The bot is running! Send it a message on Telegram."
+    echo
 else
     echo
-    echo "  To start the bot later:"
+    echo "  To run the bot:"
     echo "    cd $REPO_DIR"
     echo "    make run-debug    # first run (shows logs)"
     echo "    make run           # production mode"

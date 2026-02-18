@@ -297,7 +297,6 @@ read -rp "  Ready to start the bot? (Y/n): " START_BOT
 if [[ ! "$START_BOT" =~ ^[Nn]$ ]]; then
     info "Starting bot in debug mode..."
     cd "$REPO_DIR"
-    source "$HOME/.zshrc"
     make run-debug
 else
     echo

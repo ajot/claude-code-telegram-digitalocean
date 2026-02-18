@@ -4,6 +4,8 @@ Automated setup script for running [Claude Code Telegram](https://github.com/Ric
 
 Send messages to Claude Code from Telegram. It reads your repo, makes changes, and responds — all running on your Droplet.
 
+<img width="603" alt="Telegram bot conversation" src="https://github.com/user-attachments/assets/8b8ac8e9-5dd4-4dc9-b032-3527c9e31a4e" /> <img width="603" alt="Telegram bot conversation" src="https://github.com/user-attachments/assets/ca2c91d9-473b-44c5-8996-ff8bf04237c1" />
+
 ## Quick Start
 
 SSH into a fresh Ubuntu Droplet and run:

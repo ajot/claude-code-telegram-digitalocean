@@ -222,21 +222,16 @@ EOF
 ok ".env file written"
 
 # ---------------------------------------------------------------------------
-# Section 8: Optional extras
+# Section 8: Terminal compatibility
 # ---------------------------------------------------------------------------
 
-info "Section 8: Optional extras"
+info "Section 8: Setting TERM for SSH compatibility"
 
-echo
-read -rp "  Are you using Ghostty terminal? (y/N): " GHOSTTY
-
-if [[ "$GHOSTTY" =~ ^[Yy]$ ]]; then
-    if ! grep -q 'TERM=xterm-256color' "$HOME/.zshrc" 2>/dev/null; then
-        echo 'export TERM=xterm-256color' >> "$HOME/.zshrc"
-        ok "Added TERM=xterm-256color to ~/.zshrc"
-    else
-        warn "TERM already set in ~/.zshrc — skipping"
-    fi
+if ! grep -q 'TERM=xterm-256color' "$HOME/.zshrc" 2>/dev/null; then
+    echo 'export TERM=xterm-256color' >> "$HOME/.zshrc"
+    ok "Added TERM=xterm-256color to ~/.zshrc"
+else
+    warn "TERM already set in ~/.zshrc — skipping"
 fi
 
 # ---------------------------------------------------------------------------

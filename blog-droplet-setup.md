@@ -334,7 +334,58 @@ For normal mode:
 make run
 ```
 
-That’s it.
+------
+
+## 23. Run the Bot as a Service
+
+Once you've confirmed the bot works, set it up to run permanently — it'll survive SSH disconnects and auto-start on reboot.
+
+Create a systemd service file:
+
+```bash
+cat > /etc/systemd/system/claude-telegram-bot.service << 'EOF'
+[Unit]
+Description=Claude Code Telegram Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/claude-code-telegram
+ExecStart=/root/.local/bin/poetry run claude-telegram-bot
+EnvironmentFile=/root/claude-code-telegram/.env
+Environment=ANTHROPIC_API_KEY=your-key-here
+Environment=PATH=/root/.local/bin:/usr/local/bin:/usr/bin:/bin
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+Replace `your-key-here` with your actual Anthropic API key.
+
+Then enable and start it:
+
+```bash
+systemctl daemon-reload
+systemctl enable claude-telegram-bot
+systemctl start claude-telegram-bot
+```
+
+To check if it's running:
+
+```bash
+systemctl status claude-telegram-bot
+```
+
+To follow the logs:
+
+```bash
+journalctl -u claude-telegram-bot -f
+```
+
+That's it.
 
 Now you can send messages like:
 

@@ -110,7 +110,7 @@ else
     echo "  Generate one at: https://github.com/settings/tokens"
     echo "  Required scopes: repo, read:org"
     echo
-    read -rsp "  Paste your GitHub token: " GH_TOKEN
+    read -rp "  Paste your GitHub token: " GH_TOKEN
     echo
 
     echo "$GH_TOKEN" | gh auth login --with-token
@@ -156,7 +156,7 @@ else
 fi
 
 echo
-read -rsp "  Enter your Anthropic API key: " ANTHROPIC_KEY
+read -rp "  Enter your Anthropic API key: " ANTHROPIC_KEY
 echo
 
 # Add to zshrc if not already there

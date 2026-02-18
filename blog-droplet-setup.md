@@ -337,6 +337,10 @@ Now you can send messages like:
 > Add parks to the map by default
 > Update that broken route
 
+<img width="603" alt="Telegram bot conversation" src="https://github.com/user-attachments/assets/8b8ac8e9-5dd4-4dc9-b032-3527c9e31a4e" />
+
+<img width="603" alt="Telegram bot conversation" src="https://github.com/user-attachments/assets/ca2c91d9-473b-44c5-8996-ff8bf04237c1" />
+
 Claude Code runs locally on your Droplet, reads your repo, makes changes, and responds in Telegram.
 
 No heavy framework.

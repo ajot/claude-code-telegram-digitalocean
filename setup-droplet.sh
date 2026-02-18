@@ -257,9 +257,18 @@ echo "    - Bot dependencies installed"
 echo "    - tool_name bug fix applied"
 echo "    - .env configured"
 echo
-echo "  To run the bot:"
-echo "    cd $REPO_DIR"
-echo "    source ~/.zshrc"
-echo "    make run-debug    # first run (shows logs)"
-echo "    make run           # production mode"
-echo
+read -rp "  Ready to start the bot? (Y/n): " START_BOT
+
+if [[ ! "$START_BOT" =~ ^[Nn]$ ]]; then
+    info "Starting bot in debug mode..."
+    cd "$REPO_DIR"
+    source "$HOME/.zshrc"
+    make run-debug
+else
+    echo
+    echo "  To start the bot later:"
+    echo "    cd $REPO_DIR"
+    echo "    make run-debug    # first run (shows logs)"
+    echo "    make run           # production mode"
+    echo
+fi

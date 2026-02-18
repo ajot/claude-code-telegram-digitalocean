@@ -24,7 +24,7 @@ pause() { echo; read -rp "  Press Enter to continue..." ; }
 # ---------------------------------------------------------------------------
 
 echo
-VERSION="1.0.0"
+VERSION="1.1.0"
 echo "  ┌─────────────────────────────────────────────────────┐"
 echo "  │   Claude Code Telegram Bot — Droplet Setup v$VERSION  │"
 echo "  └─────────────────────────────────────────────────────┘"
